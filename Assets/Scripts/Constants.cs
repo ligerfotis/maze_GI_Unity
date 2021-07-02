@@ -7,7 +7,6 @@ public static class Constants
 {
     public const string HOST = "https://maze-server.app.orbitsystems.gr";
     // public const string HOST = "http://localhost:5050";
-    // public static string HOST = Environment.GetEnvironmentVariable("HOSTNAME");
 
     public const int PORT = 6610;
     public const int UPPER_BOUND = 30;

@@ -49,8 +49,7 @@ public class Goal : MonoBehaviour
 
     IEnumerator remove_win()
     {
-        // suspend execution for 5 seconds
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(game_config.goal_screen_display_duration);
         WIN.SetActive(false);
     }
 }

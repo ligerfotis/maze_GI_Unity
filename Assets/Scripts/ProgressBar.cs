@@ -18,7 +18,7 @@ public class ProgressBar : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (state == "training" || prev_state == "training")
+        if (state == "training" || (prev_state == "training" && state != "goal_reached"))
         {
             TRAINING_UI.gameObject.SetActive(true);
             on_freeze = true;

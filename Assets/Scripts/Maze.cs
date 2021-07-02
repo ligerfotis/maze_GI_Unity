@@ -38,6 +38,7 @@ public class Maze : MonoBehaviour
                 move_maze(true, game_config.human_assist, game_config.discrete_input, true, RANDOM_HUMAN);
                 break;
             }
+            case "goal_reached":
             case "training":
             {
                 return;

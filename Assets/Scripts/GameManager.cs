@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
     public GameObject MODE_UI;
     public Text MODE_TEXT;
     public int TIME_SCALE = 1;
+    DateTime pause_timestamp;
 
     void Awake()
     {
@@ -42,6 +43,15 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             on_pause = !on_pause;
+            if (on_pause)
+            {
+                pause_time = 0;
+                pause_timestamp = DateTime.Now;
+            }
+            else
+            {
+                pause_time = (float) (DateTime.Now - pause_timestamp).TotalSeconds;
+            }
         }
 
         if (on_pause)

@@ -13,6 +13,7 @@ public class Agent : MonoBehaviour
 {
     public GameObject BALL;
     public GameObject GOAL;
+    public GameObject TIMEOUT_UI;
     Rigidbody r_ball;
     int fps_counter = 1;
     int fps_adder = 60;
@@ -20,6 +21,7 @@ public class Agent : MonoBehaviour
     void Awake()
     {
         StartCoroutine(get_config());
+        TIMEOUT_UI.SetActive(false);
     }
 
     void Start()
@@ -110,10 +112,27 @@ public class Agent : MonoBehaviour
                 case "step":
                 {
                     on_freeze = false;
+
                     step_request = command_request.step_request;
                     yield return new WaitForSeconds(game_config.action_duration - 0.05f);
                     set_step_response();
-                    yield return do_command_request("POST", "/observation", step_response.to_json());
+                    yield return do_command_request("POST", "/observation", step_response.to_json(), () =>
+                    {
+                        fps_counter = 1;
+                        fps_adder = 60;
+                        pause_time = 0;
+                        if (step_request.timed_out)
+                        {
+                            TIMEOUT_UI.SetActive(true);
+                        }
+
+                        if (step_response.done)
+                        {
+                            on_freeze = true;
+                            set_state("goal_reached");
+                        }
+                    });
+
                     break;
                 }
                 case "training":
@@ -124,6 +143,15 @@ public class Agent : MonoBehaviour
                 }
                 case "finished":
                 {
+                    break;
+                }
+                case "goal_reached":
+                {
+                    print("goal_reached on network_manager");
+                    yield return new WaitForSeconds(game_config.goal_screen_display_duration);
+                    revert_to_prev_state();
+                    TIMEOUT_UI.SetActive(false);
+                    on_freeze = false;
                     break;
                 }
             }
@@ -139,10 +167,11 @@ public class Agent : MonoBehaviour
         step_response.done = is_done ? is_done : step_request.timed_out;
 
         step_response.fps = fps_adder / fps_counter;
-        fps_counter = 1;
-        fps_adder = 60;
 
-        step_response.duration_pause = 0; //TODO 
+
+        step_response.duration_pause = pause_time;
+        print($"duration_pause =>{step_response.duration_pause}");
+
         step_response.human_action = input_x;
         step_response.agent_action = input_z;
     }
