@@ -21,6 +21,8 @@ public class Agent : MonoBehaviour
 
     void Start()
     {
+        print(HOST);
+
         r_ball = BALL.gameObject.GetComponent<Rigidbody>();
         step_request = new StepRequest();
         training_request = new TrainingRequest();
@@ -41,7 +43,7 @@ public class Agent : MonoBehaviour
                 yield return new WaitForSeconds(1f);
                 continue;
             }
-            
+
             game_config = JsonUtility.FromJson<GameConfig>(res.downloadHandler.text);
             print("Setting Config");
             break;

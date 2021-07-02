@@ -3127,6 +3127,7 @@ MonoBehaviour:
   PAUSE_BTN: {fileID: 1050936516}
   MAIN_MENU_UI: {fileID: 1559270763}
   MODE_UI: {fileID: 23499821}
+  MODE_TEXT: {fileID: 1161386878}
   TIME_SCALE: 1
 --- !u!4 &1658217490
 Transform:
