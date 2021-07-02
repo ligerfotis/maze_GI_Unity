@@ -14,6 +14,8 @@ public class Agent : MonoBehaviour
     public GameObject BALL;
     public GameObject GOAL;
     Rigidbody r_ball;
+    int fps_counter = 1;
+    int fps_adder = 60;
 
     void Awake()
     {
@@ -30,6 +32,12 @@ public class Agent : MonoBehaviour
         step_response = new StepResponse();
         reset_response = new ResetResponse();
         StartCoroutine(network_manager());
+    }
+
+    void Update()
+    {
+        fps_adder += (int) (1f / Time.unscaledDeltaTime);
+        fps_counter++;
     }
 
     IEnumerator get_config()
@@ -129,7 +137,11 @@ public class Agent : MonoBehaviour
         step_response.distance_from_goal =
             Vector3.Distance(GOAL.transform.localPosition, BALL.transform.localPosition);
         step_response.done = is_done ? is_done : step_request.timed_out;
-        step_response.fps = 60; //TODO 
+
+        step_response.fps = fps_adder / fps_counter;
+        fps_counter = 1;
+        fps_adder = 60;
+
         step_response.duration_pause = 0; //TODO 
         step_response.human_action = input_x;
         step_response.agent_action = input_z;

@@ -38,7 +38,7 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         PAUSE_BTN.SetActive(on_pause);
-      
+
         if (Input.GetKeyDown(KeyCode.Space))
         {
             on_pause = !on_pause;

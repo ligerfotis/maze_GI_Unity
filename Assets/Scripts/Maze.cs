@@ -38,6 +38,10 @@ public class Maze : MonoBehaviour
                 move_maze(true, game_config.human_assist, game_config.discrete_input, true, RANDOM_HUMAN);
                 break;
             }
+            case "training":
+            {
+                return;
+            }
             default:
             {
                 move_maze(true, game_config.human_assist, game_config.discrete_input);
@@ -76,18 +80,21 @@ public class Maze : MonoBehaviour
 
     int get_z_input(bool discrete)
     {
-        var i_z = Input.GetAxis("Vertical");
-        if (i_z > 0)
-            input_z = 1;
-        else if (i_z < 0)
-            input_z = -1;
+        if (!discrete)
+        {
+            var i_z = Input.GetAxis("Vertical");
+            if (i_z > 0)
+                input_z = 1;
+            else if (i_z < 0)
+                input_z = -1;
+            else
+                input_z = 0;
+        }
         else
-            input_z = 0;
-
-        if (discrete) // not discrete
             input_z = (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow) ? 1 : 0) +
                       (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow) ? -1 : 0);
-        return input_x;
+
+        return input_z;
     }
 
     void move_maze(bool player_x_axis = false, bool player_z_axis = false, bool discrete = false,
