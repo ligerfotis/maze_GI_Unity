@@ -1,7 +1,18 @@
 using System;
+using UnityEngine;
+
+public class RequestResponse
+{
+    public string command = "reset";
+
+    public string to_json()
+    {
+        return JsonUtility.ToJson(this);
+    }
+}
 
 [Serializable]
-public class ResetResponse
+public class ResetResponse : RequestResponse
 {
     public float[] observation;
     public int setting_up_duration = 0;
@@ -10,18 +21,20 @@ public class ResetResponse
 
 
 [Serializable]
-public class StepResponse
+public class StepResponse : RequestResponse
 {
     public float[] observation;
     public bool done;
     public int fps;
     public int duration_pause;
     public float distance_from_goal;
+    public int human_action;
+    public int agent_action;
     public string command = "step";
 }
 
 [Serializable]
-public class StepRequest
+public class StepRequest : RequestResponse
 {
     public int action_agent = 0;
     public int action_duration = 0;
@@ -31,7 +44,7 @@ public class StepRequest
 }
 
 [Serializable]
-public class TrainingRequest
+public class TrainingRequest : RequestResponse
 {
     public int cycle = 0;
     public int total_cycles = 0;
@@ -39,7 +52,7 @@ public class TrainingRequest
 }
 
 [Serializable]
-public class CommandRequest
+public class CommandRequest : RequestResponse
 {
     public string command;
     public StepRequest step_request = null;
@@ -47,7 +60,7 @@ public class CommandRequest
 }
 
 [Serializable]
-public class GameConfig
+public class GameConfig : RequestResponse
 {
     public bool discrete_input = false;
     public int max_duration = 40;

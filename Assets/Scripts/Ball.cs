@@ -22,6 +22,7 @@ public class Ball : MonoBehaviour
     {
         if (state == "reset" && !did_reset)
         {
+            print("FREEZE RESET");
             transform.localPosition = get_ball_init_pos();
             transform.rotation = ball_init_rot;
             freeze();

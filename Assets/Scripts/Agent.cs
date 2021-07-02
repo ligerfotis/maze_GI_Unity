@@ -7,6 +7,7 @@ using static Constants;
 using static Helpers;
 using Random = UnityEngine.Random;
 using static GameStates;
+using Object = UnityEngine.Object;
 
 public class Agent : MonoBehaviour
 {
@@ -27,8 +28,7 @@ public class Agent : MonoBehaviour
         step_request = new StepRequest();
         training_request = new TrainingRequest();
         step_response = new StepResponse();
-        set_step_response();
-        reset_response = new ResetResponse {observation = get_observation()};
+        reset_response = new ResetResponse();
         StartCoroutine(network_manager());
     }
 
@@ -50,102 +50,72 @@ public class Agent : MonoBehaviour
         }
     }
 
-    IEnumerator do_command_request(string method, string route, System.Action callback)
+    IEnumerator do_command_request(string method, string route, string json_data = null, System.Action callback = null)
     {
-        UnityWebRequest res = UnityWebRequest.Get(HOST + "/player_ready");
+        UnityWebRequest res;
+        if (method == "GET")
+            res = UnityWebRequest.Get(HOST + "/player_ready");
+        else
+        {
+            res = UnityWebRequest.Post(HOST + "/reset_done", UnityWebRequest.kHttpVerbPOST);
+            res.SetRequestHeader("Content-Type", "application/json");
+            var json_bytes = Encoding.UTF8.GetBytes(json_data);
+            res.uploadHandler = new UploadHandlerRaw(json_bytes);
+        }
+
         yield return res.SendWebRequest();
         if (!is_request_success(res))
         {
             set_state("start");
             yield return new WaitForSeconds(.01f);
         }
-
-        command_request = JsonUtility.FromJson<CommandRequest>(res.downloadHandler.text);
-        callback();
+        else
+        {
+            command_request = JsonUtility.FromJson<CommandRequest>(res.downloadHandler.text);
+            set_state(command_request.command);
+            callback?.Invoke();
+        }
     }
 
     IEnumerator network_manager()
     {
         while (true)
         {
+            print(state);
             yield return new WaitForSeconds(0.05f);
-            UnityWebRequest res;
             switch (state)
             {
-                case "training":
                 case "start":
                 {
                     on_freeze = true;
-                    yield return do_command_request("GET", "/player_ready", () =>
-                    {
-                        set_state(command_request.command);
-                        if (state == "step")
-                            step_request = command_request.step_request;
-                        if (state == "training")
-                        {
-                            training_request = command_request.training_request;
-                        }
-                    });
+                    yield return do_command_request("GET", "/player_ready");
                     break;
                 }
                 case "reset":
                 {
                     reset_response = new ResetResponse {observation = get_observation()};
-                    var post_data = JsonUtility.ToJson(reset_response);
-                    res = UnityWebRequest.Post(HOST + "/reset_done", UnityWebRequest.kHttpVerbPOST);
-                    res.SetRequestHeader("Content-Type", "application/json");
-                    var json_bytes = Encoding.UTF8.GetBytes(post_data);
-                    res.uploadHandler = new UploadHandlerRaw(json_bytes);
-
-                    yield return res.SendWebRequest();
-                    if (!is_request_success(res))
-                    {
-                        set_state("start");
-                        yield return new WaitForSeconds(1);
-                        continue;
-                    }
-
-                    command_request = JsonUtility.FromJson<CommandRequest>(res.downloadHandler.text);
-                    set_state(command_request.command);
-
-                    on_freeze = false;
+                    yield return do_command_request("POST", "/player_ready", reset_response.to_json());
+                    on_freeze = true;
                     is_done = false;
-                    reset_pos = true;
                     break;
                 }
-
                 case "step":
                 {
                     on_freeze = false;
-
-                    var post_data = JsonUtility.ToJson(step_response);
-                    res = UnityWebRequest.Post(HOST + "/observation", UnityWebRequest.kHttpVerbPOST);
-                    res.SetRequestHeader("Content-Type", "application/json");
-                    var json_bytes = Encoding.UTF8.GetBytes(post_data);
-                    res.uploadHandler = new UploadHandlerRaw(json_bytes);
-
-                    yield return res.SendWebRequest();
-                    if (!is_request_success(res))
-                    {
-                        set_state("start");
-
-                        yield return new WaitForSeconds(1);
-                        continue;
-                    }
-
-                    command_request = JsonUtility.FromJson<CommandRequest>(res.downloadHandler.text);
-                    if (state == "step")
-                    {
-                        step_request = command_request.step_request;
-                        set_state(command_request.command);
-                        yield return new WaitForSeconds(game_config.action_duration - 0.05f);
-                    }
-
-                    if (state == "training")
-                        training_request = command_request.training_request;
-
-                    set_state(command_request.command);
+                    step_request = command_request.step_request;
+                    yield return new WaitForSeconds(game_config.action_duration - 0.05f);
                     set_step_response();
+                    yield return do_command_request("POST", "/observation", step_response.to_json());
+                    break;
+                }
+                case "training":
+                {
+                    training_request = command_request.training_request;
+                    yield return do_command_request("GET", "/player_ready");
+                    break;
+                }
+                case "finished":
+                {
                     break;
                 }
             }
@@ -159,8 +129,10 @@ public class Agent : MonoBehaviour
         step_response.distance_from_goal =
             Vector3.Distance(GOAL.transform.localPosition, BALL.transform.localPosition);
         step_response.done = is_done ? is_done : step_request.timed_out;
-        step_response.fps = 60;
-        step_response.duration_pause = 0;
+        step_response.fps = 60; //TODO 
+        step_response.duration_pause = 0; //TODO 
+        step_response.human_action = input_x;
+        step_response.agent_action = input_z;
     }
 
     float[] get_observation()

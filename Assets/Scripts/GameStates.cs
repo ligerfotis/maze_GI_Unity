@@ -8,7 +8,6 @@ public static class GameStates
     public static bool is_done = false;
     public static bool on_pause = false;
     public static float pause_time = 0f;
-    public static bool reset_pos = false;
 
     public static StepRequest step_request;
     public static StepResponse step_response;
@@ -19,6 +18,9 @@ public static class GameStates
 
     public static string state = "init";
     public static string prev_state = "init";
+
+    public static int input_x = 0;
+    public static int input_z = 0;
 
     public static void set_state(string s)
     {

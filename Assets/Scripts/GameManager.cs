@@ -37,6 +37,13 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        PAUSE_BTN.SetActive(on_pause);
+      
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            on_pause = !on_pause;
+        }
+
         if (on_pause)
         {
             Time.timeScale = 0;
@@ -46,10 +53,6 @@ public class GameManager : MonoBehaviour
         Time.timeScale = TIME_SCALE;
         PAUSE_BTN.SetActive(on_pause);
 
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            on_pause = !on_pause;
-        }
 
         switch (step_request.mode)
         {

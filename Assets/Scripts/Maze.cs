@@ -55,6 +55,40 @@ public class Maze : MonoBehaviour
         transform.eulerAngles = local_rotation;
     }
 
+    int get_x_input(bool discrete)
+    {
+        if (!discrete)
+        {
+            var i_x = Input.GetAxis("Horizontal");
+            if (i_x > 0)
+                input_x = 1;
+            else if (i_x < 0)
+                input_x = -1;
+            else
+                input_x = 0;
+        }
+        else
+            input_x = (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow) ? -1 : 0) +
+                      (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow) ? 1 : 0);
+
+        return input_x;
+    }
+
+    int get_z_input(bool discrete)
+    {
+        var i_z = Input.GetAxis("Vertical");
+        if (i_z > 0)
+            input_z = 1;
+        else if (i_z < 0)
+            input_z = -1;
+        else
+            input_z = 0;
+
+        if (discrete) // not discrete
+            input_z = (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow) ? 1 : 0) +
+                      (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow) ? -1 : 0);
+        return input_x;
+    }
 
     void move_maze(bool player_x_axis = false, bool player_z_axis = false, bool discrete = false,
         bool agent_z_axes = false, bool random_human_x_axes = false)
@@ -62,53 +96,32 @@ public class Maze : MonoBehaviour
         var local_rotation = transform.eulerAngles;
         local_rotation.y = 0;
         // player move maze
-        float input_x;
-        float input_z;
+
         if (discrete) // not discrete
         {
-            input_x = (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow) ? -1 : 0) +
-                      (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow) ? 1 : 0);
-            input_z = (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow) ? 1 : 0) +
-                      (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow) ? -1 : 0);
-            local_rotation.y = 0;
-
             if (player_x_axis)
                 local_rotation.x =
-                    Mathf.Clamp(check_angle(local_rotation.x + input_x * game_config.discrete_angle_change),
+                    Mathf.Clamp(check_angle(local_rotation.x + get_x_input(true) * game_config.discrete_angle_change),
                         LOWER_BOUND, UPPER_BOUND);
+
             if (player_z_axis)
                 local_rotation.z =
-                    Mathf.Clamp(check_angle(local_rotation.z + input_z * game_config.discrete_angle_change),
+                    Mathf.Clamp(check_angle(local_rotation.z + get_z_input(true) * game_config.discrete_angle_change),
                         LOWER_BOUND, UPPER_BOUND);
         }
         else // not discrete
         {
             if (player_x_axis)
-            {
-                input_x = Input.GetAxis("Horizontal");
-                var x = 0f;
-                print(game_config.human_speed);
-                if (input_x != 0)
-                {
-                    x = game_config.human_speed * Time.deltaTime;
-                    x = input_x > 0 ? x : -x;
-                }
-
-                local_rotation.x = Mathf.Clamp(check_angle(local_rotation.x + x), LOWER_BOUND, UPPER_BOUND);
-            }
+                local_rotation.x =
+                    Mathf.Clamp(
+                        check_angle(local_rotation.x + get_x_input(false) * game_config.human_speed * Time.deltaTime),
+                        LOWER_BOUND, UPPER_BOUND);
 
             if (player_z_axis)
-            {
-                input_z = Input.GetAxis("Vertical");
-                var z = 0f;
-                if (input_z != 0)
-                {
-                    z = game_config.human_speed * Time.deltaTime;
-                    z = input_z > 0 ? z : -z;
-                }
-
-                local_rotation.z = Mathf.Clamp(check_angle(local_rotation.z + z), LOWER_BOUND, UPPER_BOUND);
-            }
+                local_rotation.z =
+                    Mathf.Clamp(
+                        check_angle(local_rotation.z + get_z_input(false) * game_config.human_speed * Time.deltaTime),
+                        LOWER_BOUND, UPPER_BOUND);
         }
 
         // agent move maze
@@ -122,8 +135,10 @@ public class Maze : MonoBehaviour
         // random_human move maze
         if (random_human_x_axes)
         {
-            var x = x_random * game_config.human_speed * Time.deltaTime;
-            local_rotation.x = Mathf.Clamp(check_angle(local_rotation.x + x), LOWER_BOUND, UPPER_BOUND);
+            input_x = x_random;
+            local_rotation.x =
+                Mathf.Clamp(check_angle(local_rotation.x + x_random * game_config.human_speed * Time.deltaTime),
+                    LOWER_BOUND, UPPER_BOUND);
         }
 
         transform.eulerAngles = local_rotation;
