@@ -5,7 +5,8 @@ using Random = UnityEngine.Random;
 
 public static class Constants
 {
-    public const string HOST = "http://79.129.14.204:8080";
+    public const string HOST = "http://panos-server.duckdns.org:8080";
+    // public const string HOST = "http://79.129.14.204:8080";
     // public const string HOST = "https://maze-server.app.orbitsystems.gr";
     // public const string HOST = "http://localhost:5050";
 
