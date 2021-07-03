@@ -73,3 +73,9 @@ public class GameConfig : RequestResponse
     public int timeout_screen_display_duration = 3;
     public int goal_screen_display_duration = 3;
 }
+
+[Serializable]
+public class EnvVariables : RequestResponse
+{
+    public string host;
+}

@@ -45,6 +45,22 @@ public class Agent : MonoBehaviour
     {
         while (true)
         {
+            var res = UnityWebRequest.Get(HOST + "/env_variables");
+            yield return res.SendWebRequest();
+            if (!is_request_success(res))
+            {
+                yield return new WaitForSeconds(1f);
+                continue;
+            }
+
+            HOST = JsonUtility.FromJson<EnvVariables>(res.downloadHandler.text).host;
+            print("Setting EnvVariables");
+            print("HOST: " + HOST);
+            break;
+        }
+
+        while (true)
+        {
             var res = UnityWebRequest.Get(HOST + "/config");
             yield return res.SendWebRequest();
             if (!is_request_success(res))
