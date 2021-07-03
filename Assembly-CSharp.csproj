@@ -63,6 +63,8 @@
      <Compile Include="Assets\Scripts\Helpers.cs" />
      <Compile Include="Assets\Scripts\Agent.cs" />
      <Compile Include="Assets\Scripts\Maze.cs" />
+     <Compile Include="Assets\Scripts\Countdown.cs" />
+     <Compile Include="Assets\Scripts\Finished.cs" />
  <Reference Include="UnityEngine">
  <HintPath>/home/panos/Unity/Hub/Editor/2020.3.0f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
  </Reference>

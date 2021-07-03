@@ -3,10 +3,11 @@ using System.Collections;
 using System.Text;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.SceneManagement;
 using static Constants;
 using static Helpers;
-using Random = UnityEngine.Random;
 using static GameStates;
+using Random = UnityEngine.Random;
 using Object = UnityEngine.Object;
 
 public class Agent : MonoBehaviour
@@ -26,8 +27,6 @@ public class Agent : MonoBehaviour
 
     void Start()
     {
-        print(HOST);
-
         r_ball = BALL.gameObject.GetComponent<Rigidbody>();
         step_request = new StepRequest();
         training_request = new TrainingRequest();
@@ -60,14 +59,14 @@ public class Agent : MonoBehaviour
         }
     }
 
-    IEnumerator do_command_request(string method, string route, string json_data = null, System.Action callback = null)
+    IEnumerator do_command_request(string method, string route, string json_data = null, Action callback = null)
     {
         UnityWebRequest res;
         if (method == "GET")
-            res = UnityWebRequest.Get(HOST + "/player_ready");
+            res = UnityWebRequest.Get(HOST + route);
         else
         {
-            res = UnityWebRequest.Post(HOST + "/reset_done", UnityWebRequest.kHttpVerbPOST);
+            res = UnityWebRequest.Post(HOST + route, UnityWebRequest.kHttpVerbPOST);
             res.SetRequestHeader("Content-Type", "application/json");
             var json_bytes = Encoding.UTF8.GetBytes(json_data);
             res.uploadHandler = new UploadHandlerRaw(json_bytes);
@@ -92,7 +91,7 @@ public class Agent : MonoBehaviour
         while (true)
         {
             print(state);
-            yield return new WaitForSeconds(0.05f);
+            yield return new WaitForSeconds(0.005f);
             switch (state)
             {
                 case "start":
@@ -104,7 +103,12 @@ public class Agent : MonoBehaviour
                 case "reset":
                 {
                     reset_response = new ResetResponse {observation = get_observation()};
-                    yield return do_command_request("POST", "/player_ready", reset_response.to_json());
+                    yield return do_command_request("POST", "/reset_done", reset_response.to_json(), () =>
+                    {
+                        episode_paused_time = 0;
+                        pause_time = 0;
+                        episode_started = DateTime.Now;
+                    });
                     on_freeze = true;
                     is_done = false;
                     break;
@@ -114,23 +118,18 @@ public class Agent : MonoBehaviour
                     on_freeze = false;
 
                     step_request = command_request.step_request;
-                    yield return new WaitForSeconds(game_config.action_duration - 0.05f);
+                    yield return new WaitForSeconds(game_config.action_duration);
                     set_step_response();
                     yield return do_command_request("POST", "/observation", step_response.to_json(), () =>
                     {
                         fps_counter = 1;
                         fps_adder = 60;
+                        episode_paused_time += pause_time;
                         pause_time = 0;
-                        if (step_request.timed_out)
-                        {
-                            TIMEOUT_UI.SetActive(true);
-                        }
-
-                        if (step_response.done)
-                        {
-                            on_freeze = true;
-                            set_state("goal_reached");
-                        }
+                        if (step_request.timed_out) TIMEOUT_UI.SetActive(true);
+                        if (!step_response.done) return;
+                        on_freeze = true;
+                        set_state("goal_reached");
                     });
 
                     break;
@@ -143,11 +142,13 @@ public class Agent : MonoBehaviour
                 }
                 case "finished":
                 {
+                    yield return new WaitForSeconds(5f);
+                    set_state("init");
+                    SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);
                     break;
                 }
                 case "goal_reached":
                 {
-                    print("goal_reached on network_manager");
                     yield return new WaitForSeconds(game_config.goal_screen_display_duration);
                     revert_to_prev_state();
                     TIMEOUT_UI.SetActive(false);
@@ -170,7 +171,6 @@ public class Agent : MonoBehaviour
 
 
         step_response.duration_pause = pause_time;
-        print($"duration_pause =>{step_response.duration_pause}");
 
         step_response.human_action = input_x;
         step_response.agent_action = input_z;

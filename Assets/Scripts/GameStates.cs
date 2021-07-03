@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,6 +9,8 @@ public static class GameStates
     public static bool is_done = false;
     public static bool on_pause = false;
     public static float pause_time = 0f;
+    public static DateTime episode_started;
+    public static float episode_paused_time = 0;
 
     public static StepRequest step_request;
     public static StepResponse step_response;

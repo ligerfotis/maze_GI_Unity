@@ -135,7 +135,6 @@ public class Maze : MonoBehaviour
         // agent move maze
         if (agent_z_axes)
         {
-            print("agent_z_axes");
             var z = -step_request.action_agent * game_config.agent_speed * Time.deltaTime;
             local_rotation.z = Mathf.Clamp(check_angle(local_rotation.z + z), LOWER_BOUND, UPPER_BOUND);
         }

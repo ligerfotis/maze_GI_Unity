@@ -14,10 +14,11 @@ public class GameManager : MonoBehaviour
     public GameObject PAUSE_BTN;
     public GameObject MAIN_MENU_UI;
     public GameObject MODE_UI;
+    public GameObject FINISHED_UI;
     public Text MODE_TEXT;
     public int TIME_SCALE = 1;
     DateTime pause_timestamp;
-
+ 
     void Awake()
     {
         QualitySettings.vSyncCount = 0;

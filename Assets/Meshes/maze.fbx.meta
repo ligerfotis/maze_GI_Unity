@@ -9,11 +9,21 @@ ModelImporter:
       assembly: UnityEngine.CoreModule
       name: maze.001_BAKED.001
     second: {fileID: 2100000, guid: b358d8c3ebec5f781bd6f3de4ea73bde, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: plates
+    second: {fileID: 2100000, guid: a8213a068f062dadeafc2b05910feb3f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: walls
+    second: {fileID: 2100000, guid: 4ef13776384ee8baaad256ae61e5d37e, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
     materialSearch: 0
-    materialLocation: 0
+    materialLocation: 1
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
