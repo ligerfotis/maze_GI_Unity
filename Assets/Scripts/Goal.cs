@@ -31,8 +31,7 @@ public class Goal : MonoBehaviour
     {
         if (other.name != "Ball") return;
 
-        var seconds = (DateTime.Now - start_time).TotalSeconds;
-        start_time = DateTime.Now;
+        var seconds = (DateTime.Now - episode_started).TotalSeconds - episode_paused_time;
         WIN_TEXT.GetComponent<Text>().text = $"{(int) seconds} sec";
         WIN.SetActive(true);
         WIN_AUDIO.Play();
@@ -49,7 +48,7 @@ public class Goal : MonoBehaviour
 
     IEnumerator remove_win()
     {
-        yield return new WaitForSeconds(game_config.goal_screen_display_duration);
+        yield return new WaitForSeconds(game_config.popup_window_time);
         WIN.SetActive(false);
     }
 }

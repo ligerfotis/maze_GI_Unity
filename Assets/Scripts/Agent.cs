@@ -18,6 +18,7 @@ public class Agent : MonoBehaviour
     Rigidbody r_ball;
     int fps_counter = 1;
     int fps_adder = 60;
+    float request_duration = 0;
 
     void Awake()
     {
@@ -134,10 +135,15 @@ public class Agent : MonoBehaviour
                     on_freeze = false;
 
                     step_request = command_request.step_request;
-                    yield return new WaitForSeconds(game_config.action_duration);
+                    var action_duration = game_config.action_duration - request_duration - 0.005f;
+                    // wait to execute step
+                    print(request_duration);
+                    yield return new WaitForSeconds(action_duration < 0 ? 0 : action_duration);
                     set_step_response();
+                    var start_request_time = DateTime.Now;
                     yield return do_command_request("POST", "/observation", step_response.to_json(), () =>
                     {
+                        request_duration = (float) (DateTime.Now - start_request_time).TotalSeconds;
                         fps_counter = 1;
                         fps_adder = 60;
                         episode_paused_time += pause_time;
@@ -165,7 +171,7 @@ public class Agent : MonoBehaviour
                 }
                 case "goal_reached":
                 {
-                    yield return new WaitForSeconds(game_config.goal_screen_display_duration);
+                    yield return new WaitForSeconds(game_config.popup_window_time);
                     revert_to_prev_state();
                     TIMEOUT_UI.SetActive(false);
                     on_freeze = false;

@@ -70,8 +70,7 @@ public class GameConfig : RequestResponse
     public float agent_speed = 0.2f;
     public float discrete_angle_change = 10;
     public int start_up_screen_display_duration = 2;
-    public int timeout_screen_display_duration = 3;
-    public int goal_screen_display_duration = 3;
+    public int popup_window_time = 3;
 }
 
 [Serializable]

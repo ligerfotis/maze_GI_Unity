@@ -57,14 +57,14 @@
      <Compile Include="Assets\Scripts\GameManager.cs" />
      <Compile Include="Assets\Scripts\GameStates.cs" />
      <Compile Include="Assets\Scripts\Ball.cs" />
+     <Compile Include="Assets\Scripts\Finished.cs" />
      <Compile Include="Assets\Scripts\Constants.cs" />
      <Compile Include="Assets\Scripts\SocketAgent.cs" />
      <Compile Include="Assets\Scripts\JsonClasses.cs" />
+     <Compile Include="Assets\Scripts\Countdown.cs" />
      <Compile Include="Assets\Scripts\Helpers.cs" />
      <Compile Include="Assets\Scripts\Agent.cs" />
      <Compile Include="Assets\Scripts\Maze.cs" />
-     <Compile Include="Assets\Scripts\Countdown.cs" />
-     <Compile Include="Assets\Scripts\Finished.cs" />
  <Reference Include="UnityEngine">
  <HintPath>/home/panos/Unity/Hub/Editor/2020.3.0f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
  </Reference>

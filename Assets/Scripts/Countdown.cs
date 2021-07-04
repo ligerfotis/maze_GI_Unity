@@ -26,7 +26,7 @@ public class Countdown : MonoBehaviour
         if (state == "step" && !on_pause)
         {
             OUTER.SetActive(true);
-            var elapsed_time = (float) (DateTime.Now - episode_started).TotalSeconds - episode_paused_time + 1f;
+            var elapsed_time = (float) (DateTime.Now - episode_started).TotalSeconds - episode_paused_time - 1;
             elapsed_time = Math.Min(elapsed_time, game_config.max_duration);
             var percent = elapsed_time / game_config.max_duration;
             PROGRESS.fillAmount = elapsed_time / game_config.max_duration;
