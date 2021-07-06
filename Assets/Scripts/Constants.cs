@@ -16,9 +16,9 @@ public static class Constants
 
     static List<Vector3> ball_init_pos = new List<Vector3>()
     {
-        new Vector3(-0.17f, 0.025f, 0.17f), //upper right corner
-        new Vector3(0.08f, 0.025f, 0.19f), //bottom right corner
-        new Vector3(-0.17f, 0.025f, -0.09f) //upper left corner
+        new Vector3(-0.19f, 0.025f, 0.19f), //upper right corner
+        new Vector3(0.1f, 0.025f, 0.19f), //bottom right corner
+        new Vector3(-0.19f, 0.025f, -0.1f) //upper left corner
     };
 
     public static Vector3 get_ball_init_pos()

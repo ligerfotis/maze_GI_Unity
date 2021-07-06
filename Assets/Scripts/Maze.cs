@@ -26,6 +26,9 @@ public class Maze : MonoBehaviour
             case "try_game":
             {
                 move_maze(true, true, game_config.discrete_input);
+                if (is_done)
+                    reset_maze();
+
                 break;
             }
             case "reset":

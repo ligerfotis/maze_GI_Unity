@@ -39,9 +39,11 @@ public class Goal : MonoBehaviour
         START_EXPERIMENT.interactable = true;
         if (state != "try_game")
         {
-            on_freeze = true;
-            is_done = true;
         }
+
+        on_freeze = true;
+
+        is_done = true;
 
         print("GOAL");
     }
@@ -49,6 +51,7 @@ public class Goal : MonoBehaviour
     IEnumerator remove_win()
     {
         yield return new WaitForSeconds(game_config.popup_window_time);
+        on_freeze = false;
         WIN.SetActive(false);
     }
 }

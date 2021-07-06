@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,8 +25,15 @@ public class Ball : MonoBehaviour
         {
             transform.localPosition = get_ball_init_pos();
             transform.rotation = ball_init_rot;
-            freeze();
             did_reset = true;
+        }
+
+        if (state == "try_game" && is_done)
+        {
+            transform.localPosition = get_ball_init_pos();
+            transform.rotation = ball_init_rot;
+            is_done = false;
+            episode_started=DateTime.Now;
         }
 
         if (state == "step")
