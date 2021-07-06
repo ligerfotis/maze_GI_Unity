@@ -71,7 +71,7 @@ public class GameConfig : RequestResponse
     public float discrete_angle_change = 10;
     public int start_up_screen_display_duration = 2;
     public int popup_window_time = 3;
-}
+}   
 
 [Serializable]
 public class EnvVariables : RequestResponse

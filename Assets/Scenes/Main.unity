@@ -2728,7 +2728,7 @@ SphereCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1270052204}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 5bbdf52376dd66fdebb7c9a0379f84b1, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -3872,7 +3872,7 @@ PrefabInstance:
     - target: {fileID: -5754084199372789682, guid: 09c45bde254f0b069bcedc8716407e9f, type: 3}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: 3626721440054585180, guid: 1c4b4ed6c67e117389b8d7c93ccd7d31, type: 3}
+      objectReference: {fileID: 3626721440054585180, guid: 3ed974e3371a831378f9dbc1dfc78819, type: 3}
     - target: {fileID: -4587029663812805447, guid: 09c45bde254f0b069bcedc8716407e9f, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -4214,13 +4214,13 @@ MeshCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1836683018}
-  m_Material: {fileID: 13400000, guid: 5bbdf52376dd66fdebb7c9a0379f84b1, type: 2}
+  m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: 3626721440054585180, guid: 1c4b4ed6c67e117389b8d7c93ccd7d31, type: 3}
+  m_Mesh: {fileID: 3626721440054585180, guid: 3ed974e3371a831378f9dbc1dfc78819, type: 3}
 --- !u!54 &1836683020
 Rigidbody:
   m_ObjectHideFlags: 0
