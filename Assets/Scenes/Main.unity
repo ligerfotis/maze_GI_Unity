@@ -4255,7 +4255,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BALL: {fileID: 1270052204}
-  GOAL: {fileID: 1941158076}
+  GOAL: {fileID: 1850183160}
   TIMEOUT_UI: {fileID: 515785958}
 --- !u!114 &1836683026
 MonoBehaviour:
