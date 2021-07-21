@@ -23,6 +23,8 @@ public static class Constants
 
     public static Vector3 get_ball_init_pos()
     {
+        // return ball_init_pos[0];
+
         return ball_init_pos[Random.Range(0, ball_init_pos.Count)];
     }
 }

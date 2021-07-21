@@ -29,6 +29,9 @@ public static class GameStates
     public static int input_x = 0;
     public static int input_z = 0;
 
+    public static float x_angular_speed = 0.0f;
+    public static float z_angular_speed = 0.0f;
+
     public static void set_state(string s)
     {
         if (state != s)

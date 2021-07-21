@@ -35,6 +35,9 @@ public class Ball : MonoBehaviour
             is_done = false;
             episode_started=DateTime.Now;
         }
+        // set y axis to zero
+        if (transform.localPosition.y >= 0 && !is_done)
+            transform.localPosition = new Vector3(transform.localPosition.x, 0.02f, transform.localPosition.z);
 
         if (state == "step")
         {

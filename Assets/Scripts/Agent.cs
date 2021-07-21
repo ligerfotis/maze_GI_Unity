@@ -107,7 +107,7 @@ public class Agent : MonoBehaviour
     {
         while (true)
         {
-            print(state);
+            //print(state);
             yield return new WaitForSeconds(0.005f);
             switch (state)
             {
@@ -137,7 +137,7 @@ public class Agent : MonoBehaviour
                     step_request = command_request.step_request;
                     var action_duration = game_config.action_duration - request_duration - 0.005f;
                     // wait to execute step
-                    print(request_duration);
+                    // print(request_duration);
                     yield return new WaitForSeconds(action_duration < 0 ? 0 : action_duration);
                     set_step_response();
                     var start_request_time = DateTime.Now;
@@ -195,17 +195,14 @@ public class Agent : MonoBehaviour
         step_response.duration_pause = pause_time;
 
         step_response.human_action = input_x;
-        step_response.agent_action = input_z;
+        step_response.agent_action = step_request.action_agent;
     }
 
     float[] get_observation()
     {
-        var input_x = Input.GetAxis("Horizontal");
-        var x_speed = 0f;
-        if (input_x > 0)
-            x_speed = game_config.human_speed;
-        else if (input_x < 0)
-            x_speed = -game_config.human_speed;
+        // var input_x = Input.GetAxis("Horizontal");
+        // var x_speed = input_x * game_config.human_speed;
+        // var y_speed = input_z * game_config.agent_speed; // agent action
 
         var position = BALL.transform.position;
         var velocity = r_ball.velocity;
@@ -214,10 +211,10 @@ public class Agent : MonoBehaviour
 
         return new[]
         {
-            position.z, -position.x,
-            velocity.z, -velocity.x,
-            check_angle(local_rotation.x), check_angle(local_rotation.z),
-            x_speed, step_request.action_agent * game_config.agent_speed
+            position.z, position.x,
+            velocity.z, velocity.x,
+            check_angle(local_rotation.z), check_angle(local_rotation.x),
+            z_angular_speed, x_angular_speed
         };
     }
 }

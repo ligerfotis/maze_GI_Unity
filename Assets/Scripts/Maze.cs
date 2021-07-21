@@ -4,15 +4,26 @@ using static Constants;
 using static GameStates;
 using static Helpers;
 using Random = UnityEngine.Random;
-
+using System.Collections.Generic;
+using System.Text;
+using System.IO;
+using System;
 public class Maze : MonoBehaviour
 {
     public bool RANDOM_HUMAN = false;
     int x_random = 0;
+	public List<float[]> observations = new List<float[]>();
+    
+	public GameObject BALL;
+
+    Rigidbody r_ball;
+
 
     void Start()
     {
+		// todo: start with zero action
         StartCoroutine(random_x_action());
+        r_ball = BALL.gameObject.GetComponent<Rigidbody>();
     }
 
     void Update()
@@ -22,13 +33,14 @@ public class Maze : MonoBehaviour
         switch (state)
         {
             case "init":
+				is_done = true;
                 break;
             case "try_game":
             {
                 move_maze(true, true, game_config.discrete_input);
                 if (is_done)
                     reset_maze();
-
+				// todo: if timeout also reset
                 break;
             }
             case "reset":
@@ -107,39 +119,31 @@ public class Maze : MonoBehaviour
         var local_rotation = transform.eulerAngles;
         local_rotation.y = 0;
         // player move maze
+        //print(string.Format("x_angular_speed: {0}", x_angular_speed));
+        //print(string.Format("z_angular_speed: {0}", z_angular_speed));
 
-        if (discrete) // not discrete
+        if (player_x_axis)
         {
-            if (player_x_axis)
-                local_rotation.x =
-                    Mathf.Clamp(check_angle(local_rotation.x + get_x_input(true) * game_config.discrete_angle_change),
-                        LOWER_BOUND, UPPER_BOUND);
-
-            if (player_z_axis)
-                local_rotation.z =
-                    Mathf.Clamp(check_angle(local_rotation.z + get_z_input(true) * game_config.discrete_angle_change),
-                        LOWER_BOUND, UPPER_BOUND);
-        }
-        else // not discrete
-        {
-            if (player_x_axis)
-                local_rotation.x =
-                    Mathf.Clamp(
-                        check_angle(local_rotation.x + get_x_input(false) * game_config.human_speed * Time.deltaTime),
-                        LOWER_BOUND, UPPER_BOUND);
-
-            if (player_z_axis)
-                local_rotation.z =
-                    Mathf.Clamp(
-                        check_angle(local_rotation.z + get_z_input(false) * game_config.human_speed * Time.deltaTime),
-                        LOWER_BOUND, UPPER_BOUND);
+            x_angular_speed = (discrete) ? get_x_input(true) * game_config.discrete_angle_change : get_x_input(false) * game_config.human_speed * Time.deltaTime;
+            local_rotation.x =
+                Mathf.Clamp(check_angle(local_rotation.x + x_angular_speed),
+                    LOWER_BOUND, UPPER_BOUND);
         }
 
+        if (player_z_axis)
+        {
+            z_angular_speed = (discrete) ? get_z_input(true) * game_config.discrete_angle_change : get_z_input(false) * game_config.human_speed * Time.deltaTime;
+            local_rotation.z =
+                Mathf.Clamp(check_angle(local_rotation.z + z_angular_speed),
+                    LOWER_BOUND, UPPER_BOUND);
+
+        }
+            
         // agent move maze
         if (agent_z_axes)
         {
-            var z = -step_request.action_agent * game_config.agent_speed * Time.deltaTime;
-            local_rotation.z = Mathf.Clamp(check_angle(local_rotation.z + z), LOWER_BOUND, UPPER_BOUND);
+            z_angular_speed = step_request.action_agent * game_config.agent_speed * Time.deltaTime;
+            local_rotation.z = Mathf.Clamp(check_angle(local_rotation.z + z_angular_speed), LOWER_BOUND, UPPER_BOUND);
         }
 
         // random_human move maze
@@ -152,6 +156,21 @@ public class Maze : MonoBehaviour
         }
 
         transform.eulerAngles = local_rotation;
+        //print("observation");
+		// float[] obs = get_observation(x_angular_speed, z_angular_speed);
+		// observations.Add(obs);
+		// if (observations.Count == 500)
+		// {
+  //       	StreamWriter writer = new StreamWriter(Application.dataPath + "/Data/"  + "right_1strike.csv");
+  //
+  //       	for (int i = 0; i < observations.Count; ++i)
+  //       	{
+  //           	writer.WriteLine(observations[i][0]+","+ observations[i][1]+","+ observations[i][2]+","+ observations[i][3]+","+ observations[i][4]+","+ observations[i][5]+","+ observations[i][6]+","+ observations[i][7]);
+  //       	}
+		// 	print("saved");
+		// }
+
+		//print(string.Format("BallPosX: {0} | BallPosY: {1} | BallVelX: {2} | BallVelY: {3} | TrayAngleX: {4} | TrayAngleY: {5} | TrayAngleVelX: {6} | TrayAngleVelY: {7}", obs[0], obs[1], obs[2], obs[3], obs[4], obs[5], obs[6], obs[7]));
     }
 
     IEnumerator random_x_action()
@@ -162,4 +181,21 @@ public class Maze : MonoBehaviour
             yield return new WaitForSeconds(0.2f);
         }
     }
+
+	float[] get_observation(float x_angular_speed, float z_angular_speed)
+    {
+
+        var position = BALL.transform.position;
+        var velocity = r_ball.velocity;
+
+        var local_rotation = transform.eulerAngles;
+        return new[]
+        {
+            position.z, -position.x,
+            velocity.z, -velocity.x,
+            check_angle(local_rotation.x), check_angle(local_rotation.z),
+            x_angular_speed, z_angular_speed
+        };
+    }
+
 }
