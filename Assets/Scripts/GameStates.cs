@@ -6,8 +6,9 @@ public static class GameStates
 {
     // public static string HOST = "http://panos-server.duckdns.org:8080";
     // public static string HOST = "http://79.129.14.204:8080";
-    public static string HOST = "https://maze-server.app.orbitsystems.gr";
-    // public static string HOST = "http://localhost:8080";
+    // public static string HOST = "http://maze3d.duckdns.org:12000";
+    // public static string HO1ST = "https://maze-server.app.orbitsystems.gr";
+    public static string HOST = "http://localhost:8080";
     public static GameConfig game_config;
     public static bool on_freeze = true;
     public static bool is_done = false;
