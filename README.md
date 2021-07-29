@@ -1,4 +1,11 @@
 # Maze Unity
+This is the graphical simulation developed in Unity of the real world experiment from Shafti et al. (2020) [1] used from the [MazeRL](https://github.com/ligerfotis/maze_RL_online)
+
+The environment receives actions (plus other important information) and sends back observations (plus other important information) to MazeRL.
+
+The above messages are being exchanged via a HTTP server.
+
+MazeRL and MazeUnity work as HTTP clients.
 
 ### Edit MazeUnity
 * Download git
@@ -36,3 +43,7 @@ Every time a user opens the link to the webgl in the browser the game is being s
 * Open <server_name>:<host_port> (localhost:12000) in a browser.
 * If you want to stop the docker: `docker stop maze`
 * If you want to remove the docker: `docker rm maze`
+
+
+### References
+[1] Shafti, Ali, et al. "Real-world human-robot collaborative reinforcement learning." arXiv preprint arXiv:2003.01156 (2020).
