@@ -2,6 +2,9 @@
 
 ### Edit MazeUnity
 * Download git
+  
+      git clone https://github.com/ligerfotis/MazeUnity.git
+  
 * Open with unity
 * Remove default scene
 * Drag and drop main scene from Scenes in the Hierarchy
@@ -9,7 +12,18 @@
 #### Add Rider in unity (Recommended for editting)
 https://www.jetbrains.com/help/rider/Unity.html#getting-started
 
-### Deploy MazeUnity and start webgl server with docker
+### Play
+
+#### Prerequisites 
+* Start the dedicated [Maze Server](https://github.com/panos-stavrianos/maze_server)
+* Start the experiment [MazeRL](https://github.com/ligerfotis/maze_RL_online) 
+
+#### Play in Unity Editor
+Just open the game in Unity and press the `play` button.
+
+#### Play in Web Browser
+Every time a user opens the link to the webgl in the browser the game is being sent to it from a docker.
+##### Start webgl server with docker
 * Build Settings -> web_build -> (switch platform) -> build
 * Choose web_build and name it “webgl”
 * Go to to MazeUnity/web_build
