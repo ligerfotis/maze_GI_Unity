@@ -1,9 +1,11 @@
 # Maze Unity
 This is the graphical simulation developed in Unity of the real world experiment from Shafti et al. (2020) [1] used from the [MazeRL](https://github.com/ligerfotis/maze_RL_online)
 
+Forked from https://github.com/panos-stavrianos/MazeUnity and adjusted accordingly for [MazeRL](https://github.com/ligerfotis/maze_RL_online)
+
 The environment receives actions (plus other important information) and sends back observations (plus other important information) to MazeRL.
 
-The above messages are being exchanged via a HTTP server.
+The above messages are being exchanged via an HTTP server.
 
 MazeRL and MazeUnity work as HTTP clients.
 
