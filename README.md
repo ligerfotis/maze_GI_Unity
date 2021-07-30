@@ -48,6 +48,9 @@ Every time a user opens the link to the webgl in the browser the game is being s
 * If you want to stop the docker: `docker stop maze`
 * If you want to remove the docker: `docker rm maze`
 
+### HTTP connectivity
+
+In [Assets/Scripts](https://github.com/ligerfotis/MazeUnity/tree/main/Assets/Scripts) folder.
 
 ### References
 [1] Shafti, Ali, et al. "Real-world human-robot collaborative reinforcement learning." arXiv preprint arXiv:2003.01156 (2020).
