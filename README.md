@@ -3,8 +3,6 @@ This is the graphical simulation developed in Unity of the real world experiment
 
 Forked from https://github.com/panos-stavrianos/MazeUnity and adjusted accordingly for [MazeRL](https://github.com/ligerfotis/maze_RL_online)
 
-![MazeUnity](./maze.png)
-
 The environment receives actions (plus other important information) and sends back observations (plus other important information) to MazeRL.
 
 The above messages are being exchanged via an HTTP server.
@@ -51,6 +49,16 @@ Every time a user opens the link to the webgl in the browser the game is being s
 ### HTTP connectivity
 
 In [Assets/Scripts](https://github.com/ligerfotis/MazeUnity/tree/main/Assets/Scripts) folder.
+
+### MazeUnity Environment Overview
+![MazeUnity](./maze.png)
+
+#### Dimensionality
+  * Tray: 50cm x 50cm
+  * Wall thickness: 3cm
+  * Obstacles opening: 9 cm 
+  * Ball radius: 5cm
+  * Hole radius: 5 cm
 
 ### References
 [1] Shafti, Ali, et al. "Real-world human-robot collaborative reinforcement learning." arXiv preprint arXiv:2003.01156 (2020).

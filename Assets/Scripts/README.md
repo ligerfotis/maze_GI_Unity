@@ -22,3 +22,5 @@ The message exchange with the HTTP server is being done with the use of the Agen
   
 #### Note
 All messages(requests & responses) are being serialized to json files before exchanged.
+
+If no ip-distributor server is used, set the `HOST` variable in `GameStates.cs` to the location of the [Maze-Server](https://github.com/panos-stavrianos/maze_server) directly.
