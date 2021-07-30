@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour
         QualitySettings.vSyncCount = 0;
         Application.targetFrameRate = 60;
         // OnDemandRendering.renderFrameInterval = 60;
-        on_freeze = true;
+        freeze_game = true;
 
         Time.timeScale = TIME_SCALE;
     }
@@ -111,7 +111,7 @@ public class GameManager : MonoBehaviour
     {
         MAIN_MENU_UI.SetActive(true);
         set_state("try_game");
-        on_freeze = false;
+        freeze_game = false;
         INIT_UI.SetActive(false);
     }
 
@@ -119,7 +119,7 @@ public class GameManager : MonoBehaviour
     {
         MAIN_MENU_UI.SetActive(false);
         set_state("init");
-        on_freeze = true;
+        freeze_game = true;
         INIT_UI.SetActive(true);
     }
 }

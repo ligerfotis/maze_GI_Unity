@@ -86,7 +86,7 @@ public class SocketAgent : MonoBehaviour
             {
                 print("SocketTimeout");
                 start_time = DateTime.Now;
-                on_freeze = true;
+                freeze_game = true;
                 close_socket();
                 socket_ready = false;
                 yield break;
@@ -127,7 +127,7 @@ public class SocketAgent : MonoBehaviour
                     var ser_step = JsonUtility.FromJson<StepRequest>(res[1]);
                     // do the actions
                     step_request = ser_step;
-                    on_freeze = step_request.timed_out;
+                    freeze_game = step_request.timed_out;
                     if (!step_request.timed_out)
                         yield return new WaitForSeconds(.2f);
 
@@ -145,7 +145,7 @@ public class SocketAgent : MonoBehaviour
                     {
                         print("SocketException");
                         start_time = DateTime.Now;
-                        on_freeze = true;
+                        freeze_game = true;
                         close_socket();
                         socket_ready = false;
                         yield break;

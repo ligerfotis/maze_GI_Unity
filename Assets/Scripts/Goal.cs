@@ -41,7 +41,7 @@ public class Goal : MonoBehaviour
         {
         }
 
-        on_freeze = true;
+        freeze_game = true;
 
         is_done = true;
 
@@ -51,7 +51,7 @@ public class Goal : MonoBehaviour
     IEnumerator remove_win()
     {
         yield return new WaitForSeconds(game_config.popup_window_time);
-        on_freeze = false;
+        freeze_game = false;
         WIN.SetActive(false);
     }
 }

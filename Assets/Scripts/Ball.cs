@@ -46,7 +46,7 @@ public class Ball : MonoBehaviour
             did_reset = false;
         }
 
-        if (on_freeze)
+        if (freeze_game)
             freeze();
         else
             unfreeze();

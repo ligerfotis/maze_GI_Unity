@@ -21,7 +21,7 @@ public class ProgressBar : MonoBehaviour
         if (state == "training" || (prev_state == "training" && state != "goal_reached"))
         {
             TRAINING_UI.gameObject.SetActive(true);
-            on_freeze = true;
+            freeze_game = true;
             TRAINING_SLIDER.minValue = 0;
             TRAINING_SLIDER.maxValue = training_request.total_cycles;
             TRAINING_SLIDER.value = training_request.cycle;

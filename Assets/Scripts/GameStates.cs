@@ -10,7 +10,7 @@ public static class GameStates
     // public static string HO1ST = "https://maze-server.app.orbitsystems.gr";
     // public static string HOST = "http://localhost:8080";
     public static GameConfig game_config;
-    public static bool on_freeze = true;
+    public static bool freeze_game = true;
     public static bool is_done = false;
     public static bool on_pause = false;
     public static float pause_time = 0f;
