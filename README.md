@@ -3,6 +3,7 @@ This is the graphical simulation developed in Unity of the real world experiment
 
 Forked from https://github.com/panos-stavrianos/MazeUnity and adjusted accordingly for [MazeRL](https://github.com/ligerfotis/maze_RL_online)
 
+![MazeUnity](./maze.png)
 
 The environment receives actions (plus other important information) and sends back observations (plus other important information) to MazeRL.
 
