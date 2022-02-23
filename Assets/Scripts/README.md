@@ -1,5 +1,11 @@
 # Unity Scripts
 
+#### Notes
+All messages(requests & responses) are being serialized to json files before exchanged.
+
+If no ip-distributor server is used, set the `HOST` variable in `GameStates.cs` to the location of the [Maze-Server](https://github.com/panos-stavrianos/maze_server) directly.
+If set up is being done locally set ` HOST = "http://localhost:8080"` in GameStates.cs
+
 ### HTTP Connectivity
 
 The message exchange with the HTTP server is being done with the use of the Agent (Agent.cs) class.
@@ -22,7 +28,3 @@ The message exchange with the HTTP server is being done with the use of the Agen
     
 * StartUp also initiates the `network_manager` that handles the exchange of requests and responses.
   
-#### Notes
-All messages(requests & responses) are being serialized to json files before exchanged.
-
-If no ip-distributor server is used, set the `HOST` variable in `GameStates.cs` to the location of the [Maze-Server](https://github.com/panos-stavrianos/maze_server) directly.

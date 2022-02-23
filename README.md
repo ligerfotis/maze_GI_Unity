@@ -14,9 +14,9 @@ MazeRL and MazeUnity work as HTTP clients.
   
       git clone https://github.com/ligerfotis/MazeUnity.git
   
-* [Install Unity](https://docs.unity3d.com/2020.1/Documentation/Manual/GettingStartedInstallingHub.html)(Version: 2020.3.13.f1)
+* [Install Unity](https://docs.unity3d.com/2020.1/Documentation/Manual/GettingStartedInstallingHub.html) (Version: 2020.3.13f1)
 * Open with unity
-  * If project is not recognized in UnityHub, create a new one and replace the new project's folders.
+  * If Unity cannot open the project or does not recognize it, create a new project and replace the folders.
 * Remove default scene
 * Drag and drop main scene from Scenes in the Hierarchy
 
@@ -29,8 +29,9 @@ https://www.jetbrains.com/help/rider/Unity.html#getting-started
 * Start the dedicated [Maze Server](https://github.com/panos-stavrianos/maze_server)
 * Start the experiment [MazeRL](https://github.com/ligerfotis/maze_RL_online) 
 
-#### Play in Unity EditorZ
+#### Play in Unity Editor
 Just open the game in Unity and press the `play` button.
+See [here](https://github.com/ligerfotis/MazeUnity/tree/main/Assets/Scripts) for connection instructions
 
 #### Play in Web Browser
 Every time a user opens the link to the webgl in the browser the game is being sent to it from a docker.
