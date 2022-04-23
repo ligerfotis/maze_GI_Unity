@@ -1,13 +1,13 @@
 # Maze Unity
-This is the graphical simulation developed in Unity of the real world experiment from Shafti et al. (2020) [1] used from the [MazeRL](https://github.com/ligerfotis/maze_RL_online)
+This is a graphical simulation developed in Unity based on the real world experiment from [1] and used from the H-AI_collab_game
 
-Forked from https://github.com/panos-stavrianos/MazeUnity and adjusted accordingly for [MazeRL](https://github.com/ligerfotis/maze_RL_online)
+This forked from https://github.com/panos-stavrianos/MazeUnity and adjusted accordingly for our purposes.
 
-The environment receives actions (plus other important information) and sends back observations (plus other important information) to MazeRL.
+The environment receives actions (plus other important information) and sends back observations (plus other important information) to H-AI_collab_game.
 
 The above messages are being exchanged via an HTTP server.
 
-MazeRL and MazeUnity work as HTTP clients.
+H-AI_collab_game and maze_GI_Unity work as HTTP clients.
 
 ### Edit MazeUnity
 * Download git
